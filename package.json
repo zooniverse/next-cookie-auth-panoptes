@@ -1,0 +1,14 @@
+{
+  "name": "next-cookie-auth-panoptes",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "cookie": "^0.4.0",
+    "next": "^latest",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
