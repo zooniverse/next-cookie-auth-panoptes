@@ -1,6 +1,7 @@
 import cookie from 'cookie'
 import { getCSRFToken } from './auth'
 
+const CLIENT_ID = "f79cf5ea821bb161d8cbb52d061ab9a2321d7cb169007003af66b43f7b79ce2a"
 export const SECRET_COOKIE = '_Panoptes_session'
 
 export const serializeCookie = (userSecret) => {
@@ -28,7 +29,7 @@ export function sessionSecret(response) {
 export async function tokenFromSession(sessionSecret) {
   const body = {
     grant_type: "password",
-    client_id: "f79cf5ea821bb161d8cbb52d061ab9a2321d7cb169007003af66b43f7b79ce2a"
+    client_id: CLIENT_ID
   }
   let config = {
     body: JSON.stringify(body),
