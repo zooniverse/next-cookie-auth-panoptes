@@ -39,7 +39,7 @@ export async function tokenFromSession(sessionSecret) {
     grant_type: "password",
     client_id: CLIENT_ID
   }
-  let config = {
+  const config = {
     body: JSON.stringify(body),
     headers: {
       accept: 'application/json',
@@ -63,7 +63,7 @@ export async function panoptesLogin({ login, password}) {
       remember_me: true
     }
   }
-  let config = {
+  const config = {
     body: JSON.stringify(body),
     headers: {
       accept: 'application/json',
@@ -77,7 +77,7 @@ export async function panoptesLogin({ login, password}) {
 
 export async function profileApi(sessionSecret) {
   const { access_token } = await tokenFromSession(sessionSecret)
-  config = {
+  const config = {
     headers: {
       authorization: `Bearer ${access_token}`,
       accept: 'application/vnd.api+json; version=1',
