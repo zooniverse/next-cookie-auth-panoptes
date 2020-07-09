@@ -25,6 +25,25 @@ export function sessionSecret(response) {
   }, null)
 }
 
+export async function tokenFromSession(sessionSecret) {
+  const body = {
+    grant_type: "password",
+    client_id: "f79cf5ea821bb161d8cbb52d061ab9a2321d7cb169007003af66b43f7b79ce2a"
+  }
+  let config = {
+    body: JSON.stringify(body),
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json',
+      cookie: `${SECRET_COOKIE}=${sessionSecret}`
+    },
+    method: 'post',
+    withCredentials: true
+  }
+  const response = await fetch('https://www.zooniverse.org/oauth/token', config)
+  return await response.json()
+}
+
 export async function panoptesLogin({ login, password}) {
   const csrfToken = await getCSRFToken()
   const body = {
@@ -48,23 +67,7 @@ export async function panoptesLogin({ login, password}) {
 }
 
 export async function profileApi(sessionSecret) {
-  const body = {
-    grant_type: "password",
-    client_id: "f79cf5ea821bb161d8cbb52d061ab9a2321d7cb169007003af66b43f7b79ce2a"
-  }
-  let config = {
-    body: JSON.stringify(body),
-    headers: {
-      accept: 'application/json',
-      'content-type': 'application/json',
-      cookie: `${SECRET_COOKIE}=${sessionSecret}`
-    },
-    method: 'post',
-    withCredentials: true
-  }
-  const response = await fetch('https://www.zooniverse.org/oauth/token', config)
-  const data = await response.json()
-  const { access_token } = data
+  const { access_token } = await tokenFromSession(sessionSecret)
   config = {
     headers: {
       authorization: `Bearer ${access_token}`,
