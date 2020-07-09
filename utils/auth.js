@@ -1,15 +1,6 @@
 import { useEffect } from 'react'
 import Router from 'next/router'
 
-export async function getCSRFToken() {
-  const CSRFresponse = await fetch(`https://www.zooniverse.org/users/sign_in?now=${Date.now()}`, {
-    method: 'head',
-    withCredentials: true
-  })
-  const csrfToken = CSRFresponse.headers['x-csrf-token']
-  return csrfToken
-}
-
 export const login = ({ email }) => {
   Router.push('/profile')
 }

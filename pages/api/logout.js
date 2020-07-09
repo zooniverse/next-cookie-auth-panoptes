@@ -1,6 +1,5 @@
 import cookie from 'cookie'
-import { SECRET_COOKIE } from '../../utils/panoptes-auth'
-import { getCSRFToken } from '../../utils/auth'
+import { SECRET_COOKIE, getCSRFToken } from '../../utils/panoptes-auth'
 
 async function signOut() {
   const csrfToken = await getCSRFToken()

@@ -1,6 +1,5 @@
 import cookie from 'cookie'
-import { SECRET_COOKIE, panoptesLogin, serializeCookie, sessionSecret } from '../../utils/panoptes-auth'
-import { getCSRFToken } from '../../utils/auth'
+import { SECRET_COOKIE, getCSRFToken, panoptesLogin, serializeCookie, sessionSecret } from '../../utils/panoptes-auth'
 
 export default async function login(req, res) {
   const { login, password } = await req.body
