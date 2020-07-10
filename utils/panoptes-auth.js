@@ -1,10 +1,11 @@
 import cookie from 'cookie'
 
-const CLIENT_ID = "f79cf5ea821bb161d8cbb52d061ab9a2321d7cb169007003af66b43f7b79ce2a"
+const CLIENT_ID = "535759b966935c297be11913acee7a9ca17c025f9f15520e7504728e71110a27"
+const API_HOST = "https://panoptes-staging.zooniverse.org"
 export const SECRET_COOKIE = '_Panoptes_session'
 
 export async function getCSRFToken() {
-  const CSRFresponse = await fetch(`https://www.zooniverse.org/users/sign_in?now=${Date.now()}`, {
+  const CSRFresponse = await fetch(`${API_HOST}/users/sign_in?now=${Date.now()}`, {
     headers: {
       accept: 'application/json',
       'content-type': 'application/json'
@@ -53,7 +54,7 @@ export async function tokenFromSession(sessionSecret) {
     method: 'post',
     withCredentials: true
   }
-  const response = await fetch('https://www.zooniverse.org/oauth/token', config)
+  const response = await fetch(`${API_HOST}/oauth/token`, config)
   return await response.json()
 }
 
@@ -75,7 +76,7 @@ export async function panoptesLogin({ login, password}) {
     },
     method: 'post'
   }
-  const response = await fetch('https://www.zooniverse.org/users/sign_in', config)
+  const response = await fetch(`${API_HOST}/users/sign_in`, config)
   return response
 }
 
@@ -89,7 +90,7 @@ export async function api(url, sessionSecret) {
     },
     method: 'get'
   }
-  const response = await fetch(`https://www.zooniverse.org/api${url}`, config)
+  const response = await fetch(`${API_HOST}/api${url}`, config)
   return await response.json()
 }
 
