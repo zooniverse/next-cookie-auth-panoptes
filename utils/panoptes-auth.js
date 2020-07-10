@@ -75,19 +75,22 @@ export async function panoptesLogin({ login, password}) {
   return response
 }
 
-export async function profileApi(sessionSecret) {
+export async function api(url, sessionSecret) {
   const { access_token } = await tokenFromSession(sessionSecret)
   const config = {
     headers: {
       authorization: `Bearer ${access_token}`,
       accept: 'application/vnd.api+json; version=1',
-      'content-type': 'application/json',
-      cookie: serializeCookie(sessionSecret)
+      'content-type': 'application/json'
     },
     method: 'get'
   }
-  const userResponse = await fetch('https://www.zooniverse.org/api/me', config);
-  const { users } = await userResponse.json()
+  const response = await fetch(`https://www.zooniverse.org/api${url}`, config)
+  return await response.json()
+}
+
+export async function profileApi(sessionSecret) {
+  const { users } = await api('/me', sessionSecret)
   const [ user ] = users
   console.log(user.id, user.login)
   return user
