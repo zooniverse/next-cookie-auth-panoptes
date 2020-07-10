@@ -5,10 +5,14 @@ export const SECRET_COOKIE = '_Panoptes_session'
 
 export async function getCSRFToken() {
   const CSRFresponse = await fetch(`https://www.zooniverse.org/users/sign_in?now=${Date.now()}`, {
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json'
+    },
     method: 'head',
     withCredentials: true
   })
-  const csrfToken = CSRFresponse.headers['x-csrf-token']
+  const csrfToken = CSRFresponse.headers.get('x-csrf-token')
   return csrfToken
 }
 
