@@ -1,4 +1,5 @@
 import cookie from 'cookie'
+import { panoptes } from '@zooniverse/panoptes-js'
 
 const CLIENT_ID = "535759b966935c297be11913acee7a9ca17c025f9f15520e7504728e71110a27"
 const API_HOST = "https://panoptes-staging.zooniverse.org"
@@ -82,16 +83,11 @@ export async function panoptesLogin({ login, password}) {
 
 export async function api(url, sessionSecret) {
   const { access_token } = await tokenFromSession(sessionSecret)
-  const config = {
-    headers: {
-      authorization: `Bearer ${access_token}`,
-      accept: 'application/vnd.api+json; version=1',
-      'content-type': 'application/json'
-    },
-    method: 'get'
+  const headers = {
+    authorization: `Bearer ${access_token}`
   }
-  const response = await fetch(`${API_HOST}/api${url}`, config)
-  return await response.json()
+  const response = await panoptes.get(`/api${url}`, {}, headers, API_HOST)
+  return response.body
 }
 
 export async function profileApi(sessionSecret) {
