@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import Router from 'next/router'
 import Layout from '../components/layout'
+import { getCSRFToken } from '../utils/panoptes-auth'
 
-const signin = async (login, password) => {
+const signin = async (login, password, csrfToken) => {
   const response = await fetch('/api/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ login, password }),
+    body: JSON.stringify({ login, password, csrfToken }),
   })
 
   if (response.status !== 200) {
@@ -20,7 +21,7 @@ function Login() {
   const [userData, setUserData] = useState({
     login: '',
     password: '',
-    error: '',
+    error: ''
   })
 
   async function handleSubmit(event) {
@@ -29,9 +30,10 @@ function Login() {
 
     const login = userData.login
     const password = userData.password
+    const csrfToken = await getCSRFToken()
 
     try {
-      await signin(login, password)
+      await signin(login, password, csrfToken)
     } catch (error) {
       console.error(error)
       setUserData({ ...userData, error: error.message })

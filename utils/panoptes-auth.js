@@ -59,8 +59,7 @@ export async function tokenFromSession(sessionSecret) {
   return await response.json()
 }
 
-export async function panoptesLogin({ login, password}) {
-  const csrfToken = await getCSRFToken()
+export async function panoptesLogin({ login, password, csrfToken }) {
   const body = {
     'authenticity_token': csrfToken,
     user: {
