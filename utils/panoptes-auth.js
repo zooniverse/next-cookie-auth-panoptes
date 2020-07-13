@@ -81,6 +81,17 @@ export async function panoptesLogin({ login, password}) {
   return response
 }
 
+export async function panoptesLogout() {
+  const csrfToken = await getCSRFToken()
+  const config = {
+    headers: {
+      'x-csrf-token': csrfToken
+    },
+    method: 'delete'
+  }
+  return await fetch(`${API_HOST}/users/sign_out`, config)
+}
+
 export async function api(url, sessionSecret) {
   const { access_token } = await tokenFromSession(sessionSecret)
   const headers = {

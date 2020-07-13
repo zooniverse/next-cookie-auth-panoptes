@@ -1,16 +1,5 @@
 import cookie from 'cookie'
-import { SECRET_COOKIE, getCSRFToken } from '../../utils/panoptes-auth'
-
-async function signOut() {
-  const csrfToken = await getCSRFToken()
-  const config = {
-    headers: {
-      'x-csrf-token': csrfToken
-    },
-    method: 'delete'
-  }
-  return await fetch('https://www.zooniverse.org/users/sign_out', config)
-}
+import { SECRET_COOKIE, panoptesLogout } from '../../utils/panoptes-auth'
 
 export default async function logout(req, res) {
   const cookies = cookie.parse(req.headers.cookie ?? '')
@@ -20,7 +9,7 @@ export default async function logout(req, res) {
     return res.status(200).end()
   }
   // Invalidate secret (ie. logout from Fauna).
-  await signOut()
+  await panoptesLogout()
   // Clear cookie.
   const cookieSerialized = cookie.serialize(SECRET_COOKIE, '', {
     sameSite: 'lax',
