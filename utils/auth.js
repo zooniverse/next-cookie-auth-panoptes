@@ -1,12 +1,18 @@
 import { useEffect } from 'react'
 import Router from 'next/router'
+import { getCSRFToken } from './panoptes-auth'
 
 export const login = ({ email }) => {
   Router.push('/profile')
 }
 
 export const logout = async () => {
-  await fetch('/api/logout')
+  const csrfToken = await getCSRFToken()
+  await fetch('/api/logout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ csrfToken }),
+  })
 
   window.localStorage.setItem('logout', Date.now())
 
