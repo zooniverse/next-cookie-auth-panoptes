@@ -18,7 +18,7 @@ export async function getCSRFToken() {
   return csrfToken
 }
 
-export const serializeCookie = (userSecret) => {
+export function serializeCookie(userSecret) {
   return cookie.serialize(SECRET_COOKIE, userSecret, {
     sameSite: 'lax',
     // secure: process.env.NODE_ENV === 'production',
@@ -78,7 +78,9 @@ export async function panoptesLogin({ login, password}) {
     method: 'post'
   }
   const response = await fetch(`${API_HOST}/users/sign_in`, config)
-  return response
+  const session = sessionSecret(response)
+  const sessionCookie = serializeCookie(session)
+  return { response, sessionCookie }
 }
 
 export async function panoptesLogout() {
