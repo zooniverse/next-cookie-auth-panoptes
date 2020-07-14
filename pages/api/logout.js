@@ -9,16 +9,7 @@ export default async function logout(req, res) {
     // Already logged out.
     return res.status(200).end()
   }
-  // Invalidate Panoptes secret.
-  await panoptesLogout(csrfToken)
-  // Clear cookie.
-  const cookieSerialized = cookie.serialize(SECRET_COOKIE, '', {
-    sameSite: 'lax',
-    // secure: process.env.NODE_ENV === 'production',
-    maxAge: -1,
-    httpOnly: true,
-    path: '/',
-  })
-  res.setHeader('Set-Cookie', cookieSerialized)
+  const { sessionCookie } = await panoptesLogout(csrfToken)
+  res.setHeader('Set-Cookie', sessionCookie)
   res.status(200).end()
 }
