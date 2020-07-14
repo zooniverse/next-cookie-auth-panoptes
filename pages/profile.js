@@ -2,7 +2,7 @@ import cookie from 'cookie'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { withAuthSync } from '../utils/auth'
-import { SECRET_COOKIE, profileApi } from '../utils/panoptes-auth'
+import { SECRET_COOKIE, api } from '../utils/panoptes-auth'
 import Layout from '../components/layout'
 
 const Profile = ({ user, error }) => {
@@ -51,7 +51,8 @@ export async function getServerSideProps({ req, res }) {
   if (!sessionSecret) {
     error = { message: 'Not logged-in' }
   } else {
-    user = await profileApi(sessionSecret)
+    const { users } = await api('/me', sessionSecret)
+    user = users[0]
   }
 
   const props = { error, user }

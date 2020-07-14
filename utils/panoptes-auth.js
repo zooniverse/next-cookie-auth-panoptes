@@ -113,9 +113,3 @@ export async function api(url, sessionSecret) {
   return response.body
 }
 
-export async function profileApi(sessionSecret) {
-  const { users } = await api('/me', sessionSecret)
-  const [ user ] = users
-  console.log(user.id, user.login)
-  return user
-}
